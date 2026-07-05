@@ -1,4 +1,4 @@
-const TARGET = "https://67cdd7-2026-acd2c4.colegiocolondeocotlan.com";
+const TARGET = "https://colegiocolondeocotlan.com/000247-2026-f5aa95";
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
