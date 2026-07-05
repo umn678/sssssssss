@@ -1,6 +1,8 @@
-const TARGET = "https://colegiocolondeocotlan.com/000247-2026-f5aa95";
+const TARGET = "https://colegiocolondeocotlan.com";
 
 Deno.serve(async (req) => {
+  const url = new URL(req.url);
+
   if (req.method === "OPTIONS") {
     return new Response(null, {
       headers: {
@@ -11,15 +13,23 @@ Deno.serve(async (req) => {
     });
   }
 
-  const res = await fetch(TARGET, {
+  const targetUrl = TARGET + url.pathname + url.search;
+
+  const res = await fetch(targetUrl, {
+    method: req.method,
     headers: {
-      "User-Agent": "Mozilla/5.0",
-      "Accept": "text/html,application/xhtml+xml",
+      "User-Agent": req.headers.get("user-agent") || "Mozilla/5.0",
+      "Accept": req.headers.get("accept") || "text/html,application/xhtml+xml",
     },
+    body: req.method === "GET" || req.method === "HEAD" ? undefined : req.body,
   });
 
   const headers = new Headers(res.headers);
+
   headers.set("Access-Control-Allow-Origin", "*");
+  headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  headers.set("Access-Control-Allow-Headers", "*");
+
   headers.delete("content-security-policy");
   headers.delete("x-frame-options");
 
