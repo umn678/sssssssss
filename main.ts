@@ -11,21 +11,15 @@ Deno.serve(async (req) => {
     });
   }
 
-  const url = new URL(req.url);
-  const targetUrl = TARGET + url.pathname + url.search;
-
-  const res = await fetch(targetUrl, {
-    method: req.method,
-    headers: req.headers,
-    body: req.method === "GET" || req.method === "HEAD" ? undefined : req.body,
+  const res = await fetch(TARGET, {
+    headers: {
+      "User-Agent": "Mozilla/5.0",
+      "Accept": "text/html,application/xhtml+xml",
+    },
   });
 
   const headers = new Headers(res.headers);
-
   headers.set("Access-Control-Allow-Origin", "*");
-  headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-  headers.set("Access-Control-Allow-Headers", "*");
-
   headers.delete("content-security-policy");
   headers.delete("x-frame-options");
 
