@@ -1,4 +1,4 @@
-const TARGET = "https://colegiocolondeocotlan.com";
+const TARGET = "https://prelab.jp";
 
 Deno.serve(async (req) => {
   const url = new URL(req.url);
